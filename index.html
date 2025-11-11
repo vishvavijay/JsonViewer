@@ -1,1 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter & Tree Viewer</title>
+  <style>
+    :root {
+      --bg-color: #1e1e1e;
+      --text-color: #dcdcdc;
+      --toolbar-bg: #2c2c2c;
+      --border-color: #444;
+      --key-color: #9cdcfe;
+      --string-color: #ce9178;
+      --number-color: #b5cea8;
+      --boolean-color: #569cd6;
+      --null-color: #808080;
+      --accent-color: #007acc;
+      --toggle-color: #ffcc00;
+      --braces-color: #ffd700;
+      --root-color: #00ffae;
+    }
 
+    body.light {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --toolbar-bg: #f1f1f1;
+      --border-color: #ccc;
+      --key-color: #1a1aa6;
+      --string-color: #b03060;
+      --number-color: #008000;
+      --boolean-color: #0000ff;
+      --null-color: #808080;
+      --accent-color: #007acc;
+      --toggle-color: #ff6600;
+      --braces-color: #aa5500;
+      --root-color: #00997a;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--toolbar-bg);
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .buttons-left {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background-color: var(--accent-color);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #005f99;
+    }
+
+    #jsonInput {
+      flex: 1;
+      width: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 15px;
+      font-size: 14px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      box-sizing: border-box;
+    }
+
+    #jsonTree {
+      flex: 1;
+      width: 100%;
+      padding: 15px;
+      overflow-y: auto;
+      background-color: var(--bg-color);
+      display: none;
+    }
+
+    .error {
+      color: #ff4c4c;
+      font-weight: bold;
+      padding: 10px;
+      background-color: var(--toolbar-bg);
+      border-top: 1px solid var(--border-color);
+      display: none;
+    }
+
+    .key { color: var(--key-color); }
+    .string { color: var(--string-color); }
+    .number { color: var(--number-color); }
+    .boolean { color: var(--boolean-color); }
+    .null { color: var(--null-color); }
+
+    .toggle {
+      cursor: pointer;
+      color: var(--toggle-color);
+      user-select: none;
+      margin-right: 6px;
+      display: inline-block;
+      width: 18px;
+      text-align: center;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    li {
+      line-height: 1.6em;
+    }
+
+    .root-line {
+      font-weight: bold;
+      color: var(--root-color);
+      margin-bottom: 10px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .braces {
+      color: var(--braces-color);
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-color);
+      background-color: var(--toolbar-bg);
+      padding: 6px 0;
+      border-top: 1px solid var(--border-color);
+      opacity: 0.8;
+    }
+
+    footer a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="buttons-left">
+      <button id="formatBtn">Format</button>
+      <button id="treeBtn">View JSON Tree</button>
+    </div>
+    <button id="themeBtn">☀️ Light</button>
+  </div>
+
+  <textarea id="jsonInput" placeholder="Paste your JSON here..."></textarea>
+  <div id="jsonTree"></div>
+  <div id="errorMsg" class="error"></div>
+
+  <footer>
+    Developed with ❤️ in India • © 2025 All Rights Reserved
+  </footer>
+
+  <script>
+    const formatBtn = document.getElementById("formatBtn");
+    const treeBtn = document.getElementById("treeBtn");
+    const themeBtn = document.getElementById("themeBtn");
+    const jsonInput = document.getElementById("jsonInput");
+    const jsonTree = document.getElementById("jsonTree");
+    const errorMsg = document.getElementById("errorMsg");
+    const body = document.body;
+
+    // Format JSON text
+    formatBtn.addEventListener("click", () => {
+      errorMsg.style.display = "none";
+      jsonTree.style.display = "none";
+      jsonInput.style.display = "block";
+
+      try {
+        const parsed = JSON.parse(jsonInput.value);
+        jsonInput.value = JSON.stringify(parsed, null, 4);
+      } catch (e) {
+        showError(e);
+      }
+    });
+
+    // View JSON tree
+    treeBtn.addEventListener("click", () => {
+      errorMsg.style.display = "none";
+      jsonTree.innerHTML = "";
+      jsonTree.style.display = "block";
+      jsonInput.style.display = "none";
+
+      try {
+        const parsed = JSON.parse(jsonInput.value);
+        const isArray = Array.isArray(parsed);
+
+        // Root prefix
+        const rootLine = document.createElement("div");
+        rootLine.classList.add("root-line");
+        rootLine.innerHTML = `<span class="toggle">−</span> ${isArray ? "[ ]" : "{ }"} JSON`;
+        jsonTree.appendChild(rootLine);
+
+        const tree = buildTree(parsed);
+        jsonTree.appendChild(tree);
+
+        // Root toggle
+        const toggle = rootLine.querySelector(".toggle");
+        toggle.addEventListener("click", () => {
+          if (tree.style.display === "none") {
+            tree.style.display = "block";
+            toggle.textContent = "−";
+          } else {
+            tree.style.display = "none";
+            toggle.textContent = "+";
+          }
+        });
+      } catch (e) {
+        showError(e);
+        jsonTree.style.display = "none";
+        jsonInput.style.display = "block";
+      }
+    });
+
+    // Theme toggle
+    themeBtn.addEventListener("click", () => {
+      if (body.classList.contains("light")) {
+        body.classList.remove("light");
+        themeBtn.textContent = "☀️ Light";
+      } else {
+        body.classList.add("light");
+        themeBtn.textContent = "🌙 Dark";
+      }
+    });
+
+    function showError(e) {
+      errorMsg.textContent = "❌ Invalid JSON: " + e.message;
+      errorMsg.style.display = "block";
+    }
+
+    function buildTree(obj) {
+      const ul = document.createElement("ul");
+      const isArray = Array.isArray(obj);
+      const entries = isArray ? obj.entries() : Object.entries(obj);
+
+      for (const [key, value] of entries) {
+        const li = document.createElement("li");
+
+        if (typeof value === "object" && value !== null) {
+          const toggle = document.createElement("span");
+          toggle.textContent = "+";
+          toggle.classList.add("toggle");
+
+          const braces = document.createElement("span");
+          braces.classList.add("braces");
+          braces.textContent = Array.isArray(value) ? "[ ]" : "{ }";
+
+          const label = document.createElement("span");
+          label.innerHTML = `<span class='key'>${isArray ? `[${key}]` : key}</span> : `;
+
+          const childUl = buildTree(value);
+          childUl.style.display = "none";
+
+          toggle.addEventListener("click", () => {
+            if (childUl.style.display === "none") {
+              childUl.style.display = "block";
+              toggle.textContent = "−";
+            } else {
+              childUl.style.display = "none";
+              toggle.textContent = "+";
+            }
+          });
+
+          li.appendChild(toggle);
+          li.appendChild(label);
+          li.appendChild(braces);
+          li.appendChild(childUl);
+        } else {
+          li.innerHTML = `<span style="display:inline-block;width:18px;"></span><span class='key'>${isArray ? `[${key}]` : key}</span> : ${formatValue(value)}`;
+        }
+
+        ul.appendChild(li);
+      }
+      return ul;
+    }
+
+    function formatValue(value) {
+      if (typeof value === "string") return `<span class='string'>"${value}"</span>`;
+      if (typeof value === "number") return `<span class='number'>${value}</span>`;
+      if (typeof value === "boolean") return `<span class='boolean'>${value}</span>`;
+      if (value === null) return `<span class='null'>null</span>`;
+      return value;
+    }
+  </script>
+</body>
+</html>

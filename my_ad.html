@@ -1,5 +1,4 @@
 <div id="noticeBoard" class="expanded">
-  <div class="collapseBtn" id="collapseBtn">⮜</div>
   <div class="noticeHeader">💡 Dev Quote</div>
   <div class="noticeContent">
     <img src="https://static.vecteezy.com/system/resources/previews/047/063/863/non_2x/cute-monkey-cartoon-icon-character-free-png.png" alt="Quote Image" />
@@ -8,6 +7,8 @@
   </div>
   <div class="noticeFooter">Daily Inspiration</div>
 </div>
+
+<div id="collapseBtn">⮜</div>
 
 <style>
   /* Container */
@@ -34,33 +35,36 @@
 
   /* Collapsed state */
   #noticeBoard.collapsed {
-    width: 40px;
-    padding: 10px 5px;
+    width: 0;
+    padding: 0;
     overflow: hidden;
+    border-left: none;
+    border-radius: 0;
   }
 
   /* Collapse button */
-  .collapseBtn {
-    position: absolute;
-    top: 10px;
-    left: -25px;
+  #collapseBtn {
+    position: fixed;
+    top: 70px; /* adjust below toolbar */
+    right: 300px; /* align outside expanded board */
+    width: 25px;
+    height: 50px;
     background-color: #4caf50;
     color: #fff;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    line-height: 25px;
-    cursor: pointer;
     font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
     z-index: 1000;
     user-select: none;
-    transition: transform 0.3s ease;
+    transition: right 0.3s ease;
   }
 
-  /* Rotate arrow when collapsed */
-  #noticeBoard.collapsed .collapseBtn {
-    transform: rotate(180deg);
+  /* Adjust position when board collapsed */
+  #noticeBoard.collapsed + #collapseBtn {
+    right: 0;
+    border-radius: 0 8px 8px 0;
   }
 
   /* Header */
@@ -123,15 +127,19 @@
     margin-top: 10px;
   }
 
-  /* Responsive for small screens */
   @media(max-width: 900px) {
     #noticeBoard {
       width: 250px;
       padding: 15px;
     }
 
-    #noticeBoard.collapsed {
-      width: 40px;
+    #collapseBtn {
+      top: 65px;
+      right: 250px;
+    }
+
+    #noticeBoard.collapsed + #collapseBtn {
+      right: 0;
     }
   }
 </style>
@@ -142,6 +150,5 @@
 
   collapseBtn.addEventListener('click', () => {
     noticeBoard.classList.toggle('collapsed');
-    noticeBoard.classList.toggle('expanded');
   });
 </script>

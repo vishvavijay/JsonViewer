@@ -1,0 +1,40 @@
+<div id="adPanel">
+  <div class="adContent">
+    <img src="festival_image.png" alt="Festival" />
+    <p>🎉 Happy Diwali! Wishing you joy and prosperity! 🪔</p>
+  </div>
+</div>
+
+<style>
+  #adPanel {
+    position: fixed;
+    top: 60px; /* below toolbar */
+    right: 0;
+    width: 250px;
+    height: calc(100% - 60px);
+    background-color: #fff9e6;
+    border-left: 2px solid #ffd700;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    z-index: 999;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  #adPanel img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  #adPanel p {
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+  }
+</style>

@@ -8,8 +8,6 @@
   <div class="noticeFooter">Daily Inspiration</div>
 </div>
 
-<div id="collapseBtn">⮜</div>
-
 <style>
   /* Container */
   #noticeBoard {
@@ -31,40 +29,6 @@
     box-shadow: -3px 0 15px rgba(0,0,0,0.3);
     z-index: 999;
     transition: width 0.3s ease, padding 0.3s ease;
-  }
-
-  /* Collapsed state */
-  #noticeBoard.collapsed {
-    width: 0;
-    padding: 0;
-    overflow: hidden;
-    border-left: none;
-    border-radius: 0;
-  }
-
-  /* Collapse button */
-  #collapseBtn {
-    position: fixed;
-    top: 70px; /* adjust below toolbar */
-    right: 300px; /* align outside expanded board */
-    width: 25px;
-    height: 50px;
-    background-color: #4caf50;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    line-height: 50px;
-    border-radius: 8px 0 0 8px;
-    cursor: pointer;
-    z-index: 1000;
-    user-select: none;
-    transition: right 0.3s ease;
-  }
-
-  /* Adjust position when board collapsed */
-  #noticeBoard.collapsed + #collapseBtn {
-    right: 0;
-    border-radius: 0 8px 8px 0;
   }
 
   /* Header */
@@ -132,47 +96,5 @@
       width: 250px;
       padding: 15px;
     }
-
-    #collapseBtn {
-      top: 65px;
-      right: 250px;
-    }
-
-    #noticeBoard.collapsed + #collapseBtn {
-      right: 0;
-    }
   }
 </style>
-
-<script>
-  const noticeBoard = document.getElementById('noticeBoard');
-  const collapseBtn = document.getElementById('collapseBtn');
-
-  collapseBtn.addEventListener('click', () => {
-    noticeBoard.classList.toggle('collapsed');
-  });
-</script>
-
-<script>
-  function updateBodyMargin() {
-    if (noticeBoard.classList.contains('collapsed')) {
-      document.body.style.marginRight = '0';
-    } else {
-      document.body.style.marginRight = noticeBoard.offsetWidth + 'px';
-    }
-  }
-
-  // Initial margin
-  updateBodyMargin();
-
-  // Toggle collapse (ensure combined with previous listener)
-  collapseBtn.addEventListener('click', () => {
-    noticeBoard.classList.toggle('collapsed');
-    updateBodyMargin();
-  });
-
-  // Update margin on window resize
-  window.addEventListener('resize', () => {
-    updateBodyMargin();
-  });
-</script>

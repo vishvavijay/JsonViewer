@@ -329,28 +329,15 @@
 <script>
   const ad = document.getElementById('festivalAd'), btn = document.getElementById('toggleBtn');
   btn.onclick = () => {
-    if(ad.style.right==='0px'||ad.style.right==='') { ad.style.right='-220px'; btn.textContent='⮞'; }
-    else { ad.style.right='0px'; btn.textContent='⮜'; }
+    if(ad.style.right==='0px'||ad.style.right==='') { ad.style.right='-220px'; btn.textContent='⮜'; }
+    else { ad.style.right='0px'; btn.textContent='⮞'; }
   };
 </script>
 
  <!-- Festival Ad Panel Close-->
 
 
-<script>
-  const adWrapper = document.getElementById('festivalAdWrapper');
-  const adBtn = document.getElementById('adCollapseBtn');
 
-  adBtn.addEventListener('click', () => {
-    if(adWrapper.style.right === '0px') {
-      adWrapper.style.right = '-220px'; // collapsed
-      adBtn.textContent = '⮞';
-    } else {
-      adWrapper.style.right = '0px'; // expanded
-      adBtn.textContent = '⮜';
-    }
-  });
-</script>
 
 </body>
 </html>

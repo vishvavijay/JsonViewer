@@ -1,4 +1,5 @@
-<div id="noticeBoard">
+<div id="noticeBoard" class="expanded">
+  <div class="collapseBtn" id="collapseBtn">⮜</div>
   <div class="noticeHeader">💡 Dev Quote</div>
   <div class="noticeContent">
     <img src="https://static.vecteezy.com/system/resources/previews/047/063/863/non_2x/cute-monkey-cartoon-icon-character-free-png.png" alt="Quote Image" />
@@ -12,7 +13,7 @@
   /* Container */
   #noticeBoard {
     position: fixed;
-    top: 60px; /* below toolbar */
+    top: 60px;
     right: 0;
     width: 300px;
     height: calc(100% - 60px);
@@ -28,6 +29,38 @@
     color: #f0f0f0;
     box-shadow: -3px 0 15px rgba(0,0,0,0.3);
     z-index: 999;
+    transition: width 0.3s ease, padding 0.3s ease;
+  }
+
+  /* Collapsed state */
+  #noticeBoard.collapsed {
+    width: 40px;
+    padding: 10px 5px;
+    overflow: hidden;
+  }
+
+  /* Collapse button */
+  .collapseBtn {
+    position: absolute;
+    top: 10px;
+    left: -25px;
+    background-color: #4caf50;
+    color: #fff;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1000;
+    user-select: none;
+    transition: transform 0.3s ease;
+  }
+
+  /* Rotate arrow when collapsed */
+  #noticeBoard.collapsed .collapseBtn {
+    transform: rotate(180deg);
   }
 
   /* Header */
@@ -96,5 +129,19 @@
       width: 250px;
       padding: 15px;
     }
+
+    #noticeBoard.collapsed {
+      width: 40px;
+    }
   }
 </style>
+
+<script>
+  const noticeBoard = document.getElementById('noticeBoard');
+  const collapseBtn = document.getElementById('collapseBtn');
+
+  collapseBtn.addEventListener('click', () => {
+    noticeBoard.classList.toggle('collapsed');
+    noticeBoard.classList.toggle('expanded');
+  });
+</script>

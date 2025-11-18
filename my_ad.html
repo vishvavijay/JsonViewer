@@ -152,3 +152,27 @@
     noticeBoard.classList.toggle('collapsed');
   });
 </script>
+
+<script>
+  function updateBodyMargin() {
+    if (noticeBoard.classList.contains('collapsed')) {
+      document.body.style.marginRight = '0';
+    } else {
+      document.body.style.marginRight = noticeBoard.offsetWidth + 'px';
+    }
+  }
+
+  // Initial margin
+  updateBodyMargin();
+
+  // Toggle collapse (ensure combined with previous listener)
+  collapseBtn.addEventListener('click', () => {
+    noticeBoard.classList.toggle('collapsed');
+    updateBodyMargin();
+  });
+
+  // Update margin on window resize
+  window.addEventListener('resize', () => {
+    updateBodyMargin();
+  });
+</script>

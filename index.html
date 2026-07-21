@@ -9,68 +9,42 @@
 
 
 <title>
-Free JSON Formatter & JSON Tree Viewer | Online JSON Beautifier
+JSON Formatter & JSON Tree Viewer - Free Online Tool
 </title>
 
 
-<meta name="description" content="Free online JSON formatter and JSON tree viewer. Format, beautify, validate and explore JSON data directly in your browser. No data upload required.">
+<meta name="description" content="Free online JSON formatter and JSON tree viewer. Format, beautify, validate and explore JSON data directly in your browser.">
 
 
 <meta name="robots" content="index, follow">
 
 
-<meta name="author" content="JSON Viewer & Formatter">
-
-
-<!-- Replace with your real GitHub Pages URL -->
-<link rel="canonical" href="https://YOUR_USERNAME.github.io/YOUR_PROJECT/">
-
-
 <link rel="icon" href="json_icon.png" type="image/png">
 
 
+<!-- Replace with your GitHub Pages URL -->
 
-<!-- Open Graph -->
-
-<meta property="og:title" content="Free JSON Formatter & JSON Tree Viewer">
-
-<meta property="og:description" content="Format, beautify and explore JSON data with an interactive JSON tree viewer.">
-
-<meta property="og:type" content="website">
-
-<meta property="og:url" content="https://YOUR_USERNAME.github.io/YOUR_PROJECT/">
-
-<meta property="og:image" content="https://YOUR_USERNAME.github.io/YOUR_PROJECT/json_icon.png">
+<link rel="canonical" href="https://YOUR_USERNAME.github.io/YOUR_PROJECT/">
 
 
 
-<!-- Twitter -->
+<!-- Google verification goes here if required -->
 
-<meta name="twitter:card" content="summary_large_image">
-
-<meta name="twitter:title" content="JSON Formatter & Tree Viewer">
-
-<meta name="twitter:description" content="Online JSON formatter with interactive JSON visualization.">
+<!--
+<meta name="google-site-verification" content="YOUR_CODE">
+-->
 
 
-
-
-<!-- Structured Data -->
 
 <script type="application/ld+json">
 
 {
  "@context":"https://schema.org",
  "@type":"SoftwareApplication",
- "name":"JSON Viewer & Formatter",
+ "name":"JSON Formatter & JSON Tree Viewer",
  "applicationCategory":"DeveloperApplication",
  "operatingSystem":"Web",
- "description":"Free online JSON formatter and interactive JSON tree viewer.",
- "offers":{
-   "@type":"Offer",
-   "price":"0",
-   "priceCurrency":"USD"
- }
+ "description":"Online JSON formatter and interactive JSON tree viewer."
 }
 
 </script>
@@ -81,37 +55,35 @@ Free JSON Formatter & JSON Tree Viewer | Online JSON Beautifier
 
 
 /* =========================
-   COLORS
+   THEME COLORS
 ========================= */
 
 
 :root {
 
---bg-color:#1e1e1e;
+--bg:#1e1e1e;
 
---text-color:#dcdcdc;
+--text:#dcdcdc;
 
---toolbar-bg:#2c2c2c;
+--toolbar:#2c2c2c;
 
---border-color:#444;
+--border:#444;
 
---key-color:#9cdcfe;
+--accent:#007acc;
 
---string-color:#ce9178;
+--key:#9cdcfe;
 
---number-color:#b5cea8;
+--string:#ce9178;
 
---boolean-color:#569cd6;
+--number:#b5cea8;
 
---null-color:#808080;
+--boolean:#569cd6;
 
---accent-color:#007acc;
+--null:#808080;
 
---toggle-color:#ffcc00;
+--toggle:#ffcc00;
 
---braces-color:#ffd700;
-
---root-color:#00ffae;
+--brace:#ffd700;
 
 }
 
@@ -120,31 +92,29 @@ Free JSON Formatter & JSON Tree Viewer | Online JSON Beautifier
 body.light {
 
 
---bg-color:#ffffff;
+--bg:#ffffff;
 
---text-color:#000000;
+--text:#000000;
 
---toolbar-bg:#f1f1f1;
+--toolbar:#f1f1f1;
 
---border-color:#ccc;
+--border:#ccc;
 
---key-color:#1a1aa6;
+--accent:#007acc;
 
---string-color:#b03060;
+--key:#1a1aa6;
 
---number-color:#008000;
+--string:#b03060;
 
---boolean-color:#0000ff;
+--number:#008000;
 
---null-color:#808080;
+--boolean:#0000ff;
 
---accent-color:#007acc;
+--null:#808080;
 
---toggle-color:#ff6600;
+--toggle:#ff6600;
 
---braces-color:#aa5500;
-
---root-color:#00997a;
+--brace:#aa5500;
 
 
 }
@@ -153,8 +123,9 @@ body.light {
 
 
 
+
 /* =========================
-   FULL SCREEN APP
+   PAGE
 ========================= */
 
 
@@ -175,14 +146,17 @@ padding:0;
 overflow:hidden;
 
 
-background-color:var(--bg-color);
+background:var(--bg);
 
-color:var(--text-color);
+color:var(--text);
 
 
 font-family:
+
 Consolas,
+
 "Courier New",
+
 monospace;
 
 
@@ -192,6 +166,9 @@ flex-direction:column;
 
 
 }
+
+
+
 
 
 
@@ -217,14 +194,12 @@ align-items:center;
 justify-content:space-between;
 
 
-background-color:var(--toolbar-bg);
-
-
 padding:0 10px;
 
 
-border-bottom:
-1px solid var(--border-color);
+background:var(--toolbar);
+
+border-bottom:1px solid var(--border);
 
 
 }
@@ -246,11 +221,12 @@ gap:10px;
 button {
 
 
-background-color:var(--accent-color);
-
-border:none;
+background:var(--accent);
 
 color:white;
+
+
+border:0;
 
 
 padding:8px 16px;
@@ -282,8 +258,11 @@ background:#005f99;
 
 
 
+
+
 /* =========================
-   JSON AREA
+   MAIN JSON AREA
+   Leaves space for ad
 ========================= */
 
 
@@ -291,13 +270,13 @@ background:#005f99;
 #jsonTree {
 
 
-flex:1;
+height:calc(100vh - 75px);
 
 
-width:100%;
+width:calc(100% - 260px);
 
 
-min-height:0;
+margin-right:260px;
 
 
 box-sizing:border-box;
@@ -309,16 +288,19 @@ padding:15px;
 font-size:14px;
 
 
-background-color:var(--bg-color);
+background:var(--bg);
+
+color:var(--text);
 
 
-color:var(--text-color);
+overflow-y:scroll;
 
 
-overflow:auto;
+overflow-x:hidden;
 
 
 }
+
 
 
 
@@ -326,15 +308,15 @@ overflow:auto;
 #jsonInput {
 
 
-border:none;
+border:0;
 
 outline:none;
-
 
 resize:none;
 
 
 }
+
 
 
 
@@ -350,23 +332,29 @@ display:none;
 
 
 
+
+
+
 /* =========================
-   SCROLLBAR
+   CLEAR SCROLLBAR
 ========================= */
 
 
-::-webkit-scrollbar {
+#jsonInput::-webkit-scrollbar,
+
+#jsonTree::-webkit-scrollbar {
 
 
-width:14px;
-
-height:14px;
+width:16px;
 
 
 }
 
 
-::-webkit-scrollbar-track {
+
+#jsonInput::-webkit-scrollbar-track,
+
+#jsonTree::-webkit-scrollbar-track {
 
 
 background:#222;
@@ -375,10 +363,13 @@ background:#222;
 }
 
 
-::-webkit-scrollbar-thumb {
+
+#jsonInput::-webkit-scrollbar-thumb,
+
+#jsonTree::-webkit-scrollbar-thumb {
 
 
-background:#666;
+background:#777;
 
 
 border-radius:10px;
@@ -391,29 +382,36 @@ border:3px solid #222;
 
 
 
-::-webkit-scrollbar-thumb:hover {
+#jsonInput::-webkit-scrollbar-thumb:hover,
+
+#jsonTree::-webkit-scrollbar-thumb:hover {
 
 
-background:#999;
+background:#aaa;
 
 
 }
+
+
+
 
 
 
 /* Firefox */
 
 
-* {
+#jsonInput,
+
+#jsonTree {
 
 
 scrollbar-width:auto;
 
-
-scrollbar-color:#666 #222;
+scrollbar-color:#777 #222;
 
 
 }
+
 
 
 
@@ -427,46 +425,45 @@ scrollbar-color:#666 #222;
 
 .key {
 
-color:var(--key-color);
+color:var(--key);
 
 }
 
 
 .string {
 
-color:var(--string-color);
+color:var(--string);
 
 }
 
 
 .number {
 
-color:var(--number-color);
+color:var(--number);
 
 }
 
 
 .boolean {
 
-color:var(--boolean-color);
+color:var(--boolean);
 
 }
 
 
 .null {
 
-color:var(--null-color);
+color:var(--null);
 
 }
-
 
 
 .toggle {
 
 
-cursor:pointer;
+color:var(--toggle);
 
-color:var(--toggle-color);
+cursor:pointer;
 
 display:inline-block;
 
@@ -480,26 +477,13 @@ width:18px;
 .braces {
 
 
-color:var(--braces-color);
+color:var(--brace);
 
 font-weight:bold;
 
 
 }
 
-
-
-.root-line {
-
-
-color:var(--root-color);
-
-font-weight:bold;
-
-margin-bottom:10px;
-
-
-}
 
 
 
@@ -516,7 +500,6 @@ margin:0;
 }
 
 
-
 li {
 
 
@@ -524,6 +507,22 @@ line-height:1.6em;
 
 
 }
+
+
+
+
+.root-line {
+
+
+font-weight:bold;
+
+color:#00ffae;
+
+margin-bottom:10px;
+
+
+}
+
 
 
 
@@ -541,19 +540,13 @@ line-height:1.6em;
 display:none;
 
 
+background:var(--toolbar);
+
+
 color:#ff4c4c;
 
 
-font-weight:bold;
-
-
-background:var(--toolbar-bg);
-
-
-padding:10px;
-
-
-border-top:1px solid var(--border-color);
+padding:8px;
 
 
 flex-shrink:0;
@@ -586,16 +579,18 @@ text-align:center;
 font-size:12px;
 
 
-padding:5px 0;
+background:var(--toolbar);
 
 
-background:var(--toolbar-bg);
+border-top:1px solid var(--border);
 
 
-border-top:1px solid var(--border-color);
+padding:5px;
 
 
 }
+
+
 
 
 
@@ -603,288 +598,8 @@ border-top:1px solid var(--border-color);
 
 
 /* =========================
-   MOBILE
+   AD PANEL
 ========================= */
-
-
-@media(max-width:600px){
-
-
-button {
-
-
-padding:7px 10px;
-
-font-size:12px;
-
-
-}
-
-
-}
-
-
-
-</style>
-
-
-</head>
-
-<body>
-
-
-<!--
-Hidden SEO content.
-Not visible to users.
-Helps search engines understand the tool.
--->
-
-<div class="seo-hidden">
-
-
-<h1>
-Online JSON Formatter and Interactive JSON Tree Viewer
-</h1>
-
-
-<p>
-Free JSON formatter, JSON beautifier and interactive JSON tree viewer.
-Format, validate and explore JSON data directly in your browser.
-</p>
-
-
-<h2>
-Features
-</h2>
-
-
-<ul>
-
-<li>JSON formatting</li>
-
-<li>JSON beautification</li>
-
-<li>Interactive JSON tree view</li>
-
-<li>JSON validation</li>
-
-<li>Dark and light theme</li>
-
-<li>Client-side processing</li>
-
-</ul>
-
-
-<h2>
-FAQ
-</h2>
-
-
-<h3>
-What is a JSON formatter?
-</h3>
-
-<p>
-A JSON formatter converts unstructured JSON text into readable formatted JSON.
-</p>
-
-
-<h3>
-Is JSON data uploaded?
-</h3>
-
-<p>
-No. JSON processing happens locally inside your browser.
-</p>
-
-
-</div>
-
-
-
-
-
-
-<!-- MAIN TOOLBAR -->
-
-
-<div class="toolbar">
-
-
-<div class="buttons-left">
-
-
-<button 
-id="formatBtn"
-aria-label="Format JSON">
-
-Format JSON
-
-</button>
-
-
-
-<button 
-id="treeBtn"
-aria-label="View JSON tree">
-
-View JSON Tree
-
-</button>
-
-
-</div>
-
-
-
-
-<button 
-id="themeBtn"
-aria-label="Change theme">
-
-☀️ Light
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-
-<!-- JSON INPUT -->
-
-
-<textarea
-
-id="jsonInput"
-
-aria-label="JSON input"
-
-placeholder="Paste your JSON here..."
-
-></textarea>
-
-
-
-
-
-
-<!-- TREE VIEW -->
-
-
-<div id="jsonTree"></div>
-
-
-
-
-
-
-<!-- ERROR -->
-
-
-<div id="errorMsg" class="error"></div>
-
-
-
-
-
-
-<!-- FOOTER -->
-
-
-<footer>
-
-Developed with ❤️ in India • © 2025 JSON Viewer & Formatter
-
-</footer>
-
-
-
-
-
-
-
-
-<!-- =========================
-     AD PANEL
-========================= -->
-
-
-<div id="festivalAd">
-
-
-<iframe
-
-src="my_ad.html"
-
-loading="lazy"
-
-title="Advertisement"
-
-></iframe>
-
-
-
-
-<button
-
-id="toggleBtn"
-
-aria-label="Toggle advertisement">
-
-⮞
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<style>
-
-
-/* Hidden SEO */
-
-.seo-hidden {
-
-
-position:absolute;
-
-
-width:1px;
-
-
-height:1px;
-
-
-overflow:hidden;
-
-
-clip-path:inset(50%);
-
-
-white-space:nowrap;
-
-
-}
-
-
-
-
-
-
-/* Advertisement */
 
 
 #festivalAd {
@@ -908,17 +623,16 @@ height:calc(100% - 70px);
 background:#111;
 
 
-z-index:999;
+z-index:2000;
 
 
 transition:right .3s ease;
 
 
-box-shadow:-3px 0 12px rgba(0,0,0,.35);
+box-shadow:-3px 0 10px rgba(0,0,0,.4);
 
 
 }
-
 
 
 
@@ -931,13 +645,10 @@ width:100%;
 height:100%;
 
 
-border:none;
+border:0;
 
 
 }
-
-
-
 
 
 
@@ -962,7 +673,7 @@ height:32px;
 padding:0;
 
 
-border:none;
+border:0;
 
 
 background:#4caf50;
@@ -971,22 +682,10 @@ background:#4caf50;
 color:white;
 
 
-border-radius:5px 0 0 5px;
-
-
 cursor:pointer;
 
 
-display:flex;
-
-
-align-items:center;
-
-
-justify-content:center;
-
-
-font-size:16px;
+border-radius:5px 0 0 5px;
 
 
 }
@@ -996,8 +695,25 @@ font-size:16px;
 
 
 
+/* MOBILE */
+
 
 @media(max-width:700px){
+
+
+#jsonInput,
+
+#jsonTree {
+
+
+width:100%;
+
+
+margin-right:0;
+
+
+}
+
 
 
 #festivalAd {
@@ -1013,8 +729,238 @@ width:180px;
 }
 
 
+</style>
+
+
+</head>
+
+<body>
+
+
+<!--
+Hidden SEO text.
+Not visible on screen.
+Used only to describe the tool.
+-->
+
+<div class="seo-hidden">
+
+
+<h1>
+JSON Formatter and JSON Tree Viewer
+</h1>
+
+
+<p>
+Free online JSON formatter, beautifier and interactive JSON tree viewer.
+Format and inspect JSON data directly in your browser.
+</p>
+
+
+<h2>
+Features
+</h2>
+
+
+<ul>
+
+<li>JSON formatting</li>
+
+<li>JSON validation</li>
+
+<li>Interactive JSON tree view</li>
+
+<li>Dark and light mode</li>
+
+<li>No data upload</li>
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+<!-- TOOLBAR -->
+
+
+<div class="toolbar">
+
+
+<div class="buttons-left">
+
+
+<button id="formatBtn">
+
+Format JSON
+
+</button>
+
+
+
+<button id="treeBtn">
+
+View JSON Tree
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<button id="themeBtn">
+
+☀️ Light
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- JSON INPUT -->
+
+
+<textarea
+
+id="jsonInput"
+
+placeholder="Paste your JSON here..."
+
+aria-label="JSON input">
+
+</textarea>
+
+
+
+
+
+
+
+<!-- JSON TREE -->
+
+
+<div id="jsonTree"></div>
+
+
+
+
+
+
+
+<!-- ERROR MESSAGE -->
+
+
+<div id="errorMsg" class="error"></div>
+
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<footer>
+
+Developed with ❤️ in India • © 2025 JSON Formatter
+
+</footer>
+
+
+
+
+
+
+
+
+<!-- =========================
+     AD PANEL
+========================= -->
+
+
+<div id="festivalAd">
+
+
+<iframe
+
+src="my_ad.html"
+
+loading="lazy"
+
+title="Advertisement">
+
+</iframe>
+
+
+
+
+
+<button id="toggleBtn">
+
+⮞
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<style>
+
+
+/* Hide SEO content without affecting layout */
+
+.seo-hidden {
+
+
+position:absolute;
+
+
+width:1px;
+
+
+height:1px;
+
+
+overflow:hidden;
+
+
+clip:rect(0,0,0,0);
+
+
+white-space:nowrap;
+
+
+}
+
+
 
 </style>
+
 
 
 
@@ -1026,7 +972,7 @@ width:180px;
 <script>
 
 
-/* Advertisement open/close */
+/* Advertisement toggle */
 
 
 const festivalAd =
@@ -1041,13 +987,14 @@ document.getElementById("toggleBtn");
 toggleBtn.onclick=function(){
 
 
+
 if(
 festivalAd.style.right === "0px" ||
 festivalAd.style.right === ""
 ){
 
 
-festivalAd.style.right="-220px";
+festivalAd.style.right="-250px";
 
 
 toggleBtn.textContent="⮜";
@@ -1074,6 +1021,8 @@ toggleBtn.textContent="⮞";
 
 </script>
 
+
+
 <script>
 
 
@@ -1091,18 +1040,17 @@ const body = document.body;
 
 
 /* =========================
-   LOAD SAVED THEME
+   LOAD THEME
 ========================= */
 
 
-if(localStorage.getItem("json-theme") === "light"){
+if(localStorage.getItem("theme") === "light"){
 
     body.classList.add("light");
 
-    themeBtn.textContent = "🌙 Dark";
+    themeBtn.textContent="🌙 Dark";
 
 }
-
 
 
 
@@ -1114,7 +1062,7 @@ if(localStorage.getItem("json-theme") === "light"){
 ========================= */
 
 
-formatBtn.addEventListener("click",()=>{
+formatBtn.onclick=function(){
 
 
     clearError();
@@ -1129,7 +1077,9 @@ formatBtn.addEventListener("click",()=>{
     try{
 
 
-        const data = JSON.parse(jsonInput.value);
+        const data =
+        JSON.parse(jsonInput.value);
+
 
 
         jsonInput.value =
@@ -1149,7 +1099,7 @@ formatBtn.addEventListener("click",()=>{
 
 
 
-});
+};
 
 
 
@@ -1160,11 +1110,12 @@ formatBtn.addEventListener("click",()=>{
 
 
 /* =========================
-   VIEW TREE
+   JSON TREE VIEW
 ========================= */
 
 
-treeBtn.addEventListener("click",()=>{
+treeBtn.onclick=function(){
+
 
 
     clearError();
@@ -1189,6 +1140,7 @@ treeBtn.addEventListener("click",()=>{
 
 
 
+
         const root =
         document.createElement("div");
 
@@ -1208,21 +1160,24 @@ treeBtn.addEventListener("click",()=>{
 
 
 
-
         root.appendChild(rootToggle);
+
 
 
         root.appendChild(
             document.createTextNode(
                 Array.isArray(data)
-                ? " [ ] JSON"
-                : " { } JSON"
+                ?
+                " [ ] JSON"
+                :
+                " { } JSON"
             )
         );
 
 
 
         jsonTree.appendChild(root);
+
 
 
 
@@ -1238,8 +1193,8 @@ treeBtn.addEventListener("click",()=>{
 
 
 
+        rootToggle.onclick=function(){
 
-        rootToggle.onclick=()=>{
 
 
             if(tree.style.display==="none"){
@@ -1263,6 +1218,7 @@ treeBtn.addEventListener("click",()=>{
             }
 
 
+
         };
 
 
@@ -1270,6 +1226,7 @@ treeBtn.addEventListener("click",()=>{
 
 
     }
+
 
     catch(error){
 
@@ -1286,9 +1243,7 @@ treeBtn.addEventListener("click",()=>{
 
 
 
-});
-
-
+};
 
 
 
@@ -1298,11 +1253,11 @@ treeBtn.addEventListener("click",()=>{
 
 
 /* =========================
-   THEME BUTTON
+   THEME SWITCH
 ========================= */
 
 
-themeBtn.addEventListener("click",()=>{
+themeBtn.onclick=function(){
 
 
     body.classList.toggle("light");
@@ -1316,7 +1271,7 @@ themeBtn.addEventListener("click",()=>{
 
 
         localStorage.setItem(
-            "json-theme",
+            "theme",
             "light"
         );
 
@@ -1330,7 +1285,7 @@ themeBtn.addEventListener("click",()=>{
 
 
         localStorage.removeItem(
-            "json-theme"
+            "theme"
         );
 
 
@@ -1338,7 +1293,7 @@ themeBtn.addEventListener("click",()=>{
 
 
 
-});
+};
 
 
 
@@ -1356,6 +1311,7 @@ themeBtn.addEventListener("click",()=>{
 function createTree(value){
 
 
+
     const ul =
     document.createElement("ul");
 
@@ -1366,16 +1322,19 @@ function createTree(value){
 
 
 
-    const items =
+    const entries =
     isArray
-    ? value.entries()
-    : Object.entries(value);
+    ?
+    value.entries()
+    :
+    Object.entries(value);
 
 
 
 
 
-    for(const [key,item] of items){
+    for(const [key,item] of entries){
+
 
 
         const li =
@@ -1386,9 +1345,9 @@ function createTree(value){
 
 
         if(
-            typeof item==="object"
+            typeof item === "object"
             &&
-            item!==null
+            item !== null
         ){
 
 
@@ -1396,10 +1355,10 @@ function createTree(value){
             const toggle =
             document.createElement("span");
 
-
             toggle.className="toggle";
 
             toggle.textContent="+";
+
 
 
 
@@ -1414,8 +1373,10 @@ function createTree(value){
 
             keySpan.textContent =
             isArray
-            ? `[${key}]`
-            : key;
+            ?
+            `[${key}]`
+            :
+            key;
 
 
 
@@ -1431,9 +1392,10 @@ function createTree(value){
 
             braces.textContent =
             Array.isArray(item)
-            ? " [ ]"
-            : " { }";
-
+            ?
+            " [ ]"
+            :
+            " { }";
 
 
 
@@ -1444,6 +1406,7 @@ function createTree(value){
             createTree(item);
 
 
+
             child.style.display="none";
 
 
@@ -1451,13 +1414,15 @@ function createTree(value){
 
 
 
-            toggle.onclick=()=>{
+            toggle.onclick=function(){
+
 
 
                 if(child.style.display==="none"){
 
 
                     child.style.display="block";
+
 
                     toggle.textContent="−";
 
@@ -1468,6 +1433,7 @@ function createTree(value){
 
 
                     child.style.display="none";
+
 
                     toggle.textContent="+";
 
@@ -1484,32 +1450,37 @@ function createTree(value){
 
             li.appendChild(toggle);
 
+
             li.appendChild(keySpan);
+
 
             li.appendChild(
                 document.createTextNode(" : ")
             );
 
+
             li.appendChild(braces);
+
 
             li.appendChild(child);
 
 
 
 
+
         }
+
 
         else{
 
 
-            const spacer =
+            const space =
             document.createElement("span");
 
 
-            spacer.style.display="inline-block";
+            space.style.display="inline-block";
 
-            spacer.style.width="18px";
-
+            space.style.width="18px";
 
 
 
@@ -1523,15 +1494,16 @@ function createTree(value){
 
             keySpan.textContent =
             isArray
-            ? `[${key}]`
-            : key;
+            ?
+            `[${key}]`
+            :
+            key;
 
 
 
 
 
-
-            li.appendChild(spacer);
+            li.appendChild(space);
 
 
             li.appendChild(keySpan);
@@ -1542,10 +1514,10 @@ function createTree(value){
             );
 
 
-
             li.appendChild(
                 formatValue(item)
             );
+
 
 
         }
@@ -1553,8 +1525,8 @@ function createTree(value){
 
 
 
-
         ul.appendChild(li);
+
 
 
     }
@@ -1577,11 +1549,12 @@ function createTree(value){
 
 
 /* =========================
-   SAFE VALUE COLORS
+   VALUE COLOR FORMAT
 ========================= */
 
 
 function formatValue(value){
+
 
 
     const span =
@@ -1589,7 +1562,7 @@ function formatValue(value){
 
 
 
-    if(typeof value==="string"){
+    if(typeof value === "string"){
 
 
         span.className="string";
@@ -1600,7 +1573,8 @@ function formatValue(value){
 
     }
 
-    else if(typeof value==="number"){
+
+    else if(typeof value === "number"){
 
 
         span.className="number";
@@ -1610,7 +1584,8 @@ function formatValue(value){
 
     }
 
-    else if(typeof value==="boolean"){
+
+    else if(typeof value === "boolean"){
 
 
         span.className="boolean";
@@ -1619,6 +1594,7 @@ function formatValue(value){
 
 
     }
+
 
     else if(value===null){
 
@@ -1667,6 +1643,7 @@ function showError(error){
 
 
 
+
 function clearError(){
 
 
@@ -1677,4 +1654,7 @@ function clearError(){
 
 
 
+
+
 </script>
+
